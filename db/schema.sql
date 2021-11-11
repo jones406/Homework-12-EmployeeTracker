@@ -1,13 +1,15 @@
-DROP DATABASE IF EXISTS books_db;
-CREATE DATABASE books_db;
+DROP DATABASE IF EXISTS employees_db;
+CREATE DATABASE employees_db;
 
-USE books_db;
+USE employees_db;
 
 CREATE TABLE department (
   id INT PRIMARY KEY,
   name VARCHAR(30)
 );
 
+
+-- department_id ref employee role
 CREATE TABLE role (
   id INT PRIMARY KEY,
   title VARCHAR(30)
