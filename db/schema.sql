@@ -8,7 +8,6 @@ CREATE TABLE department (
   name VARCHAR(30)
 );
 
-
 -- department_id ref employee role
 CREATE TABLE role (
   id INT PRIMARY KEY,
