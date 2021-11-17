@@ -8,6 +8,6 @@ VALUES ("department_one"),
 
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("jefe", true, 1),
+VALUES ("jefe", 100000, 1),
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
