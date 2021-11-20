@@ -33,6 +33,15 @@ let begin = () => {
       } else if
       (ans.start === 'View all departments') {
         viewDepartments();
+      } else if
+      (ans.start === 'View all roles') {
+        viewRoles();
+      } else if
+      (ans.start === 'View all employees') {
+        viewEmployees();
+      } else if
+      (ans.start === 'Update an employee') {
+        updateEmployee();
       }
     })
   }
@@ -82,23 +91,35 @@ function viewDepartments(){
 
 // WHEN I choose to add a role
 // THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
-const addRole = [
-  {
-  type: 'input',
-  name: 'role',
-  message: 'Enter the name of the new role:'
-  },
-  {
-  type: 'input',
-  name: 'salary',
-  message: 'Enter the salary for the new role:'
-  },
-  {
-  type: 'input',
-  name: 'dept_id',
-  message: 'Which department will have this position?'
-  },
-];
+function addRole() {
+  const addRole = [
+    {
+    type: 'input',
+    name: 'new_role',
+    message: 'Enter the name of your new role:'
+    },
+    {
+    type: 'input',
+    name: 'salary',
+    message: 'Enter the salary for your new role:'
+    },
+    {
+    type: 'input',
+    name: 'department',
+    message: 'In which department is the new role?'
+    }
+  ];
+  inquirer.prompt(addRole)
+  .then(ans => {
+    db.query('insert into role (title) values (?)', [ans.new_dept], (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        begin();
+      }
+    })
+  })
+}
 
 // WHEN I choose to add an employee
 // THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
