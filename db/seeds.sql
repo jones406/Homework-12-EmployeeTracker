@@ -2,12 +2,17 @@
 
 
 INSERT INTO department
-VALUES ("department_one"),
-("department_two"),
-("department_three"),
+VALUES ("Sales"),
+("Content Development"),
+("Design"),
 
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("jefe", 100000, 1),
+VALUES ("Editor", 85000, 1),
+("Designer", 88000, 2),
+("Salesperson", 90000, 3),
+("Manager", 120000, 4)
+
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Brooke", "Jones", 1, )

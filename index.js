@@ -18,7 +18,7 @@ let begin = () => {
         message: "What would you like to do?",
         name: "start",
         type: "rawlist",
-        choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee", "Quit"] //to do: add default or error
+        choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee", "Quit"]
       }
     ])
     .then(ans => {
@@ -38,8 +38,6 @@ let begin = () => {
   }
 
 begin();
-// WHEN I choose to view all departments
-// THEN I am presented with a formatted table showing department names and department ids
 
 // WHEN I choose to view all roles
 // THEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
@@ -57,8 +55,8 @@ function addDepartment() {
     message: 'Enter the name of your new department:'
     }
   ];
-
-  inquirer.prompt(addDept).then(ans => {
+  inquirer.prompt(addDept)
+  .then(ans => {
     db.query('insert into department (name) values (?)', [ans.new_dept], (err, results) => {
       if (err) {
         console.log(err);

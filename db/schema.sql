@@ -7,23 +7,22 @@ CREATE TABLE department (
   name VARCHAR(30)
 );
 
--- department_id ref employee role
+--The department_id col is a foreign key that references the id col in the department table
 CREATE TABLE role (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   title VARCHAR(30),
   salary DECIMAL,
-  department_id INT
-  -- make dept id a foreign key to id in dept table
+  department_id INT,
+  FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
--- role_id ref employee role
--- manager_id ref to another employee, null if no manager
+
 CREATE TABLE employee (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   first_name VARCHAR(30),
   last_name VARCHAR(30),
   role_id INT,
-  -- make role id a foreign key to id in role table
+  FOREIGN KEY (role_id) REFERENCES role(id)
   manager_id INT
-  -- make mgr id a foreign key to id in this table
+  FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
