@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+const { response } = require('express');
 //const cTable = require("console.table");
 
 // connect to db
@@ -70,7 +71,17 @@ function addDepartment() {
 }
 
 function addRole() {
-  const addRoleQs = [
+  const depts = [];
+  db.query('select id from employees_db.department', (err, results) => {
+    if (err) {
+      console.log(err);
+    } else {
+      for(i = 0; i < response.length; i++) {
+        depts.push(response[i].id);
+      }
+    }
+  }) 
+  const addRoleQs = inquirer.prompt([
     {
       type: 'input',
       name: 'new_role',
@@ -82,14 +93,14 @@ function addRole() {
       message: 'Enter the salary for this new role: $'
     },
     {
-      type: 'input',
+      type: 'rawlist',
       name: 'department',
-      message: 'In which department is the new role?'
+      message: 'In which department is the new role?',
+      choices: depts
     }
-  ];
-  inquirer.prompt(addRoleQs)
-    .then(ans => {
-      db.query('INSERT INTO role(title, salary, department_id) VALUES (?,?,?)', [response.role, response.salary, deptid], (err, results) => {
+  ])
+    .then(response => {
+      db.query('INSERT INTO role(title, salary, department_id) VALUES (?,?,?)', [response.role, response.salary, response.department_id], (err, results) => {
         if (err) {
           console.log(err);
         } else {
@@ -148,10 +159,8 @@ function viewRoles() {
     })
 }
 
-//join to query multiple tables and create a temporary table w/ the restuls of the query
-//show employee ids, first names, last names, job titles, departments, salaries, and managers
 function viewEmployees() {
-  db.query('SELECT employee.id AS "ID", concat(employee.first_name,"  ",employee.last_name ) AS "Name", roles.title AS "Title", roles.salary AS "Salary", department.department_name AS "Dept" ,concat(manager.first_name,"  ",manager.last_name) AS "Manager" FROM employees_db.employee AS employee LEFT JOIN employees_db.employee AS manager ON manager.id=employee.manager_id LEFT JOIN employees_db.roles AS roles ON employee.role_id=roles.id LEFT JOIN employees_db.department AS dept ON dept.id = roles.department_id',
+  db.query('SELECT employee.id AS "ID", concat(employee.first_name,"  ",employee.last_name ) AS "Name", roles.title AS "Title", roles.salary AS "Salary", department.department_name AS "Dept" ,concat(manager.first_name," ",manager.last_name) AS "Manager" FROM employees_db.employee AS employee LEFT JOIN employees_db.employee AS manager ON manager.id = employee.manager_id LEFT JOIN employees_db.roles AS roles ON employee.role_id = roles.id LEFT JOIN employees_db.department AS department ON department.id = roles.department_id',
     (err, results) => {
       if (err) {
         console.log(err);
@@ -162,17 +171,6 @@ function viewEmployees() {
     }
   )
 }
-
-
-// db.query(`select employee.id as "ID",
-// concat(employee.first_name, " ", employee.last_name) as "Name", 
-// roles.title as "Title",
-// roles.salary as "Salary",
-// department.name as "Department",
-// concat(manager.first_name,"  ",manager.last_name) as "Manager", from employees_db.employee as employee
-// left join employees_db.employee as manager on manager.id=employee.manager_id
-// left join employees_db.roles as roles on employee.role_id = roles.id
-// left join employees_db.department as department on department.id = roles.department_id;`
 
 function viewDepartments() {
   db.query('select * from department',
