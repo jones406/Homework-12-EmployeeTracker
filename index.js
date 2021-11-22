@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const { response } = require('express');
+//const { response } = require('express');
 //const cTable = require("console.table");
 
 // connect to db
@@ -19,7 +19,7 @@ let begin = () => {
       message: "What would you like to do?",
       name: "start",
       type: "rawlist",
-      choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee", "Quit"]
+      choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Quit"]
     }
   ])
     .then(ans => {
@@ -76,15 +76,15 @@ function addRole() {
     if (err) {
       console.log(err);
     } else {
-      for(i = 0; i < response.length; i++) {
-        depts.push(response[i].id);
+      for(i = 0; i < results.length; i++) {
+        depts.push(results[i].id);
       }
     }
   }) 
-  const addRoleQs = inquirer.prompt([
+  inquirer.prompt([
     {
       type: 'input',
-      name: 'new_role',
+      name: 'role',
       message: 'Enter the name of the new role:'
     },
     {
@@ -95,57 +95,69 @@ function addRole() {
     {
       type: 'rawlist',
       name: 'department',
-      message: 'In which department is the new role?',
+      message: 'Which department number is the new role?',
       choices: depts
     }
   ])
     .then(response => {
-      db.query('INSERT INTO role(title, salary, department_id) VALUES (?,?,?)', [response.role, response.salary, response.department_id], (err, results) => {
+      db.query('INSERT INTO roles(title, salary, department_id) VALUES (?,?,?)', [response.role, response.salary, response.department], (err, results) => {
         if (err) {
           console.log(err);
         } else {
-          console.table(results);
+          console.log("Your new role has been added.");
           begin();
         }
       })
     })
 }
 
-function addEmployee() {
-  const addEmployeeQs = [
-    {
-      type: 'input',
-      name: 'first_name',
-      message: "What is the new employee's first name?"
-    },
-    {
-      type: 'input',
-      name: 'last_name',
-      message: "What is the new employee's last name?"
-    },
-    {
-      type: 'rawlist',
-      name: 'role_id',
-      message: ''
-    },
-    {
-      type: 'rawlist',
-      name: 'manager_id',
-      message: ''
-    }
-  ];
-  inquirer.prompt(addEmployeeQs)
-    .then(ans => {
-      db.query('INSERT INTO roles(title, salary, department_id) VALUES (?,?,?)', [response.role, response.salary, deptid], (err, results) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.table(results);
-          begin();
-        }
-      })
-    })
-}
+// function addEmployee() {
+//   const emps = [];
+//   const mgrs = [];
+//   db.query('select title from employees_db.roles', (err, results) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       for(i = 0; i < results.length; i++) {
+//         emps.push(results[i].title);
+//       }
+//     }
+//   }) 
+//   inquirer.prompt([
+//     {
+//       type: 'input',
+//       name: 'first_name',
+//       message: "What is the new employee's first name?"
+//     },
+//     {
+//       type: 'input',
+//       name: 'last_name',
+//       message: "What is the new employee's last name?"
+//     },
+//     {
+//       type: 'rawlist',
+//       name: 'role_title',
+//       message: 'What role are you adding?',
+//       choices: emps
+//     },
+//     {
+//       type: 'rawlist',
+//       name: 'manager_id',
+//       message: '',
+//       choices: mgrs
+//     }
+//   ]
+//   .then(response => {
+//       db.query('INSERT INTO roles(title, salary, department_id) VALUES (?,?,?)', [response.role, response.salary, deptid], (err, results) => {
+//         if (err) {
+//           console.log(err);
+//         } else {
+//           console.table(results);
+//           begin();
+//         }
+//       })
+//     })
+// }
 
 function viewRoles() {
   db.query('select * from roles',
@@ -184,17 +196,16 @@ function viewDepartments() {
     })
 }
 
-// WHEN I choose to update an employee role
-// THEN I am prompted to select an employee to update and their new role and this information is updated in the database
-const updateEmployee = [
-  {
-    type: 'input',
-    name: 'id',
-    message: "What is the employee's ID?"
-  },
-  {
-    type: 'input',
-    name: 'role_id',
-    message: "What is the role ID for the new position?"
-  },
-]
+// Update employee: new role
+// const updateEmployee = [
+//   {
+//     type: 'input',
+//     name: 'id',
+//     message: "What is the employee's ID?"
+//   },
+//   {
+//     type: 'input',
+//     name: 'role_id',
+//     message: "What is the role ID for the new position?"
+//   },
+// ]
