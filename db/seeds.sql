@@ -15,11 +15,12 @@ VALUES ("Editor", 85000, 2),
 
 SELECT * FROM employees_db.roles;
 
-
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Brooke", "Jones", 1, 3),
-    ("Cy", "Jones", 4, 2),
-    ("Sue", "Jones", 2, 4),
-    ("Scott", "Jones", 3, 1);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Brooke", "Jones", 1, null),
+    ("Cy", "Jones", 4, 1),
+    ("Sue", "Jones", 2, null),
+    ("Scott", "Jones", 3, 3);
 
 SELECT * FROM employees_db.employee;

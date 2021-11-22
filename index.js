@@ -1,4 +1,3 @@
-// get the client
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 //const cTable = require("console.table");
@@ -59,7 +58,7 @@ function addDepartment() {
   ];
   inquirer.prompt(addDeptQs)
     .then(ans => {
-      db.query('insert into department (name) values (?)', [ans.new_dept], (err, results) => {
+      db.query('insert into department (department_name) values (?)', [ans.new_dept], (err, results) => {
         if (err) {
           console.log(err);
         } else {
@@ -149,21 +148,31 @@ function viewRoles() {
     })
 }
 
+//join to query multiple tables and create a temporary table w/ the restuls of the query
+//show employee ids, first names, last names, job titles, departments, salaries, and managers
 function viewEmployees() {
-  db.query(`select employee.id, employee.first_name, employee.last_name, role.title, department.name as department, role.salary,
-  concat(manager.first_name, " ", manager.last_name) as manager from employee 
-  left join role on employee.role_id = role.id
-  left join department on role.department_id = department.id 
-  left join employee manager on employee.manager_id = manager.id`
+  db.query('SELECT employee.id AS "ID", concat(employee.first_name,"  ",employee.last_name ) AS "Name", roles.title AS "Title", roles.salary AS "Salary", department.department_name AS "Dept" ,concat(manager.first_name,"  ",manager.last_name) AS "Manager" FROM employees_db.employee AS employee LEFT JOIN employees_db.employee AS manager ON manager.id=employee.manager_id LEFT JOIN employees_db.roles AS roles ON employee.role_id=roles.id LEFT JOIN employees_db.department AS dept ON dept.id = roles.department_id',
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        console.table(results);
+        console.table(results),
         begin();
       }
-    })
+    }
+  )
 }
+
+
+// db.query(`select employee.id as "ID",
+// concat(employee.first_name, " ", employee.last_name) as "Name", 
+// roles.title as "Title",
+// roles.salary as "Salary",
+// department.name as "Department",
+// concat(manager.first_name,"  ",manager.last_name) as "Manager", from employees_db.employee as employee
+// left join employees_db.employee as manager on manager.id=employee.manager_id
+// left join employees_db.roles as roles on employee.role_id = roles.id
+// left join employees_db.department as department on department.id = roles.department_id;`
 
 function viewDepartments() {
   db.query('select * from department',
