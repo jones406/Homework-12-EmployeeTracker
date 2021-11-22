@@ -126,7 +126,7 @@ function addEmployee() {
   ];
   inquirer.prompt(addEmployeeQs)
     .then(ans => {
-      db.query('INSERT INTO role(title, salary, department_id) VALUES (?,?,?)', [response.role, response.salary, deptid], (err, results) => {
+      db.query('INSERT INTO roles(title, salary, department_id) VALUES (?,?,?)', [response.role, response.salary, deptid], (err, results) => {
         if (err) {
           console.log(err);
         } else {
@@ -150,7 +150,11 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-  db.query('select * from employees',
+  db.query(`select employee.id, employee.first_name, employee.last_name, role.title, department.name as department, role.salary,
+  concat(manager.first_name, " ", manager.last_name) as manager from employee 
+  left join role on employee.role_id = role.id
+  left join department on role.department_id = department.id 
+  left join employee manager on employee.manager_id = manager.id`
     (err, results) => {
       if (err) {
         console.log(err);
