@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 //const { response } = require('express');
-//const cTable = require("console.table");
+const cTable = require("console.table");
 
 // connect to db
 const db = mysql.createConnection(
