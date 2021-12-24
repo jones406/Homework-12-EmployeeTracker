@@ -34,7 +34,7 @@ SO THAT I can organize and plan my business
     
       
 ## Contributing
- Contributers: Worked with classmates Mary Lou Hoover and tutor Jaired Jawed.
+ Contributers: Worked alongside classmates and tutor, Jaired Jawed
  Suggestions can be provided at the email link below.  
 
 ## Sources
@@ -43,9 +43,10 @@ SO THAT I can organize and plan my business
 - [console.table package](https://www.npmjs.com/package/console.table)
 
 ## Future Improvements
-  Add functionality to add and update employees.
+** WORK IN PROGESS **
+Add functionality to add and update employees.
 
-  ## Questions
-  For questions, please check out my Github profile or email me.  
+## Questions
+For questions, please check out my Github profile or email me.  
 [My Github](https://www.github.com/jones406)  
 [Email Me](mailto:brookejones406@gmail.com)  
