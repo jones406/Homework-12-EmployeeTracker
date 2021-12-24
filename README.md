@@ -30,7 +30,7 @@ SO THAT I can organize and plan my business
     
 ## License 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)  
-![MIT](https://opensource.org/licenses/MIT)  
+[MIT](https://opensource.org/licenses/MIT)  
     
       
 ## Contributing
