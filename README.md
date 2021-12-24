@@ -29,7 +29,7 @@ SO THAT I can organize and plan my business
   Brooke Jones  
     
 ## License 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)  
 ![MIT](https://opensource.org/licenses/MIT)  
     
       
